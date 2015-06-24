@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"><![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"><![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"><![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"><!--<![endif]-->
+<!--[if lt IE 7 ]><html class="ie ie6" lang="{{ page.lang }}"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="{{ page.lang }}"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="{{ page.lang }}"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="{{ page.lang }}"><!--<![endif]-->
 
   {% include head.html %}
 
   <body id="backtotop">
-    {% include header.html %}
+    {% case page.lang %}
+    {% when 'de' %}
+      {% include header-de.html %}
+      {{ content }}
+      {% include footer-de.html %}
 
-    {{ content }}
+    {% when 'en' %}
+      {% include header-en.html %}
+      {{ content }}
+      {% include footer-en.html %}
 
-    {% include footer.html %}
+    {% else %}
+      {% include header-en.html %}
+      {{ content }}
+      {% include footer-en.html %}
+
+    {% endcase %}
   </body>
 </html>

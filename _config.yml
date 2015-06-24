@@ -1,7 +1,10 @@
 # Site settings
 title: Luftdaten.info aus Stuttgart
 email: your-email@domain.com
-description: > # this means to ignore newlines until "baseurl:"
+description.de: > # this means to ignore newlines until "description.en:"
+  Wir entwickeln Feinstaubmessgeräte und verteilen sie über die
+  Stadt Stuttgart.
+description.en: > # this means to ignore newlines until "baseurl:"
   Wir entwickeln Feinstaubmessgeräte und verteilen sie über die
   Stadt Stuttgart.
 baseurl: "/" # the subpath of your site, e.g. /blog/

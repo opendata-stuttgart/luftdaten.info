@@ -4,7 +4,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{{ site.description }}">
+    {% case page.lang %}
+    {% when 'de' %}
+      <meta name="description" content="{{ site.description.de }}">
+    {% when 'en' %}
+      <meta name="description" content="{{ site.description.en }}">
+    {% else %}
+      <meta name="description" content="{{ site.description.en }}">
+    {% endcase %}
 
   <!--<link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">-->
