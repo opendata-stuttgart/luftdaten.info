@@ -391,6 +391,12 @@ h1, h2, h3
 			background: #1ABC9C;
 		}
 
+#youtubecont
+{
+	position: relative;
+	font-size: 18px;
+}
+		
 #footercont
 {
 	position: relative;
