@@ -24,17 +24,6 @@
     bundle install
     ```
 
-  5. Install [Node.js and npm](https://docs.npmjs.com/getting-started/installing-node)
-
-  6. Install javascript dependencies
-
-    ```
-    $ npm install -g grunt-cli
-    $ npm install -g bower
-    $ npm install
-    $ grunt
-    ```
-
 2. Run Jekyll
 
   ```
