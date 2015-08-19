@@ -21,6 +21,6 @@
 
 
 
-- Kooperationspartner
+- ~~Kooperationspartner~~
 
-- Mitglieder?
+- ~~Mitglieder~~
