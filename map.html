@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stamen example</title>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="http://openlayers.org/en/v3.9.0/css/ol.css" type="text/css">
+<script src="http://openlayers.org/en/v3.9.0/build/ol.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+
+<div class="row-fluid">
+  <div class="span12">
+    <div id="map" class="map"></div>
+  </div>
+</div>
+
+</div>
+<script>
+
+var getRandomLocation = function (latitude, longitude, radiusInMeters) {
+        var getRandomCoordinates = function (radius, uniform) {
+          // Generate two random numbers
+          var a = Math.random(),
+              b = Math.random();
+
+          // Flip for more uniformity.
+          if (uniform) {
+              if (b < a) {
+                  var c = b;
+                  b = a;
+                  a = c;
+              }
+          }
+
+          // It's all triangles.
+          return [
+              b * radius * Math.cos(2 * Math.PI * a / b),
+              b * radius * Math.sin(2 * Math.PI * a / b)
+          ];
+        };
+
+        var randomCoordinates = getRandomCoordinates(radiusInMeters, true);
+
+        // Earths radius in meters via WGS 84 model.
+        var earth = 6378137;
+
+        // Offsets in meters.
+        var northOffset = randomCoordinates[0],
+          eastOffset = randomCoordinates[1];
+
+        // Offset coordinates in radians.
+        var offsetLatitude = northOffset / earth,
+          offsetLongitude = eastOffset / (earth * Math.cos(Math.PI * (latitude / 180)));
+
+        // Offset position in decimal degrees.
+        return [
+          longitude + (offsetLongitude * (180 / Math.PI)),
+          latitude + (offsetLatitude * (180 / Math.PI))
+        ]
+      };
+
+
+
+var count = 300;
+var features = [];
+for (var i = 0; i < count; ++i) {
+  var coordinates = getRandomLocation(48.775846, 9.182932, 3000);
+  //ol.proj.fromLonLat([16.3725, 48.208889])
+  features.push(new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat(coordinates))));
+}
+
+var source = new ol.source.Vector({
+  features: features
+});
+
+var clusterSource = new ol.source.Cluster({
+  distance: 40,
+  source: source
+});
+
+var styleCache = {};
+var clusters = new ol.layer.Vector({
+  source: clusterSource,
+  style: function(feature, resolution) {
+    var size = feature.get('features').length;
+    var style = styleCache[size];
+    if (!style) {
+      style = [new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 10,
+          stroke: new ol.style.Stroke({
+            color: '#fff'
+          }),
+          fill: new ol.style.Fill({
+            color: '#1abc9c'
+          })
+        }),
+        text: new ol.style.Text({
+          text: size.toString(),
+          fill: new ol.style.Fill({
+            color: '#fff'
+          })
+        })
+      })];
+      styleCache[size] = style;
+    }
+    return style;
+  }
+});
+
+var raster = new ol.layer.Tile({
+  source: new ol.source.MapQuest({layer: 'sat'})
+});
+
+var raw = new ol.layer.Vector({
+  source: source
+});
+
+var map = new ol.Map({
+  layers: [
+
+    new ol.layer.Tile({
+      source: new ol.source.Stamen({
+        layer: 'watercolor'
+      })
+    }),
+    new ol.layer.Tile({
+      source: new ol.source.Stamen({
+        layer: 'terrain-labels'
+      })
+    }),
+    clusters
+    //raster, clusters
+  ],
+  target: 'map',
+  view: new ol.View({
+    center: ol.proj.transform(
+        [9.182932, 48.775846], 'EPSG:4326', 'EPSG:3857'),
+    zoom: 12
+  })
+});
+
+</script>
+</body>
+</html>
