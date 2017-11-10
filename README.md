@@ -1,3 +1,6 @@
+# Don't use this version. This is only to archive this files
+
+
 # [luftdaten.info](http://luftdaten.info/) [![Build Status](https://travis-ci.org/opendata-stuttgart/luftdaten.info.svg)](https://travis-ci.org/opendata-stuttgart/luftdaten.info)
 
 ## Local builds
